@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Reflection.Metadata;
 using System.Runtime.InteropServices;
 
 
@@ -85,15 +86,22 @@ public class UI
         do
         {
             newScripture.Display();
-            Console.WriteLine("\n --Press Enter To Continue--"); 
-            Console.ReadLine();
-            if (newScripture.isAllWordsHidden == true)
+            Console.WriteLine("\n --Press Enter To Continue or Type Quit to end--"); 
+            string userInput = Console.ReadLine();
+            if (userInput.ToLower() != "quit")
             {
-                completed = true;
+                if (newScripture.isAllWordsHidden == true)
+                {
+                    completed = true;
+                }
+                else
+                {
+                    newScripture.HideMoreWords(3);
+                }
             }
             else
             {
-                newScripture.HideMoreWords(3);
+                completed = true;
             }
             Console.Clear();
          
