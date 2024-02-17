@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 
 
 
@@ -28,11 +29,15 @@ public class UI
         menu.Add("0: Quit");
 
 
-        Console.WriteLine("Welcome! What would you like to do today?");
+        
         do
         {
+            Console.Clear();
+            Console.WriteLine("Welcome!");
             DisplayMenu();
             userinput = Console.ReadLine();
+            Console.Clear();
+
             if (int.TryParse(userinput, out userOption))
             {
                 if (userOption is >= 1 and <= 4)
@@ -47,14 +52,17 @@ public class UI
                 else
                 {
                     Console.WriteLine($"please enter a digit between 1 and 5, not {userOption}");
+                    Console.WriteLine("--Press Enter To Continue--");
+                    Console.ReadLine();
                 }
             }
             else
             {
                 Console.WriteLine("Please enter a correct digit");
+                Console.WriteLine("--Press Enter To Continue--");
+                Console.ReadLine();
                 userOption = -1;
             }
-
 
         } while (userOption != 0);
     }
@@ -87,9 +95,12 @@ public class UI
             {
                 newScripture.HideMoreWords(3);
             }
+            Console.Clear();
          
         } while (completed == false);
 
-        Console.Write("\n\n Back to Menu \n\n");
+        Console.WriteLine("Finished!");
+        Console.WriteLine("--Press Enter To Continue--");
+        Console.ReadLine();
     }
 }
