@@ -4,6 +4,7 @@ class Program
 {
     static void Main(string[] args)
     {
-        Console.WriteLine("Hello Develop04 World!");
+        D4MenuUI d4MenuUI = new D4MenuUI();
+        d4MenuUI.Main();
     }
 }
