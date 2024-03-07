@@ -1,9 +1,10 @@
-using System;
 
-class Program
-{
-    static void Main(string[] args)
+class Program{
+
+    static void Main()
     {
-        Console.WriteLine("Hello Sandbox World!");
+        PolymorphismExample polymorphismExample = new PolymorphismExample();
+        polymorphismExample.Main();
+        
     }
 }
