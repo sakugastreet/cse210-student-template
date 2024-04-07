@@ -1,9 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Dynamic;
-using System.Reflection.Metadata.Ecma335;
-
 static class TerminalUI
 {
     //This class is to boost some functionality I want in my terminal and working within the console.
@@ -67,7 +61,42 @@ static class TerminalUI
 
         return parsedInt;
     }
-
+    public static void StringPressToContinue(string line, bool clearBeforePrint=false)
+    {
+        //Takes a string, prints it to the terminal and then
+        //makes the user hit Enter before they continue
+        TerminalUI.SmoothPrintLine(line, clearBeforePrint:clearBeforePrint);
+        TerminalUI.SmoothPrintLine("Press Enter to Continue", clearBeforePrint:false);
+        Console.ReadLine();
+    }
+    public static void ListStringPressToContinue(List<string> lines, bool clearBeforePrint = false, bool EntZeroToExit=true)
+    {
+        //Takes a string, prints it to the terminal and then
+        //makes the user hit Enter before they continue
+        if (EntZeroToExit)
+        {
+            string userInput;
+            foreach (string line in lines)
+            {
+                TerminalUI.SmoothPrintLine(line, clearBeforePrint: clearBeforePrint);
+                TerminalUI.SmoothPrintLine("Press Enter to Continue", clearBeforePrint: false);
+                userInput = Console.ReadLine();
+                if (userInput == "0")
+                {
+                    break;
+                }
+            }
+        }
+        else
+        {
+            foreach (string line in lines)
+            {
+                TerminalUI.SmoothPrintLine(line, clearBeforePrint: clearBeforePrint);
+                TerminalUI.SmoothPrintLine("Press Enter to Continue", clearBeforePrint: false);
+                Console.ReadLine();
+            }
+        }
+    }
     public static bool GetStringYN(string prompt = "", bool initclear = true)
     {
         // This is to enable me to not have to create code over and over again to get

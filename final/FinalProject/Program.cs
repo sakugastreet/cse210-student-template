@@ -7,31 +7,30 @@ using Microsoft.SqlServer;
 class Program
 {
     static void Main(string[] args)
-
-    List<string> topMenu = new List<string> {
-
-    };
-
     {
-        Console.WriteLine("Hello FinalProject World!");
-        using (var context = new LibraryContext())
-        {
-            context.Database.EnsureCreated();
 
-            // Add sample data
-            // context.Books.Add(new Book { Title = "Sample Book 1", Author = "Author 1", Year = 2022 });
-            // Book book = new Book { Title = "Sample Book 2", Author = "Author 2", Year = 2023 };
-            // context.Books.Add(book);
-            // context.Books.Add(new Book { Title = "Sample Book 3", Author = "Author 3", Year = 2023 });
+        LibraryUI libraryUI = new LibraryUI();
+        libraryUI.Main();
+        
+        // Console.WriteLine("Hello FinalProject World!");
+        // using (var context = new LibraryContext())
+        // {
+        //     context.Database.EnsureCreated();
 
-            // context.Books.Remove(book);
-            var allBooks = context.Books.ToList();
-            context.Books.RemoveRange(allBooks);
+        //     // Add sample data
+        //     context.Books.Add(new Book { Title = "Sample Book 1", Author = "Author 1", Year = 2022 });
+        //     Book book = new Book { Title = "Sample Book 2", Author = "Author 2", Year = 2023 };
+        //     context.Books.Add(book);
+        //     context.Books.Add(new Book { Title = "Sample Book 3", Author = "Author 3", Year = 2023 });
 
-            // Save changes to the database
-            context.SaveChanges();
+        //     context.Books.Remove(book);
+        //     // var allBooks = context.Books.ToList();
+        //     // context.Books.RemoveRange(allBooks);
 
-            Console.WriteLine("Sample database created successfully.");
-        }
+        //     // Save changes to the database
+        //     context.SaveChanges();
+
+        //     Console.WriteLine("Sample database created successfully.");
+        // }
     }
 }
