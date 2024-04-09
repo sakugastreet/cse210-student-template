@@ -11,7 +11,9 @@ public class User
 
     [Key]
     public int LibraryID { get; set; }
+    [NotNull]
     public string Name { get; set; }
+    [NotNull]
     public List<Content> UserContent { get; set; }
     [NotMapped]
     private List<string> _userMainMenu = new List<string> {
@@ -29,6 +31,10 @@ public class User
     public User(LibraryContext context)
     {
         _context = context;
+        if (UserContent == null)
+        {
+            UserContent = new List<Content> {};
+        }
     }
 
     public void Main()
@@ -43,15 +49,46 @@ public class User
             }
             else if (userChoice == 2)
             {
-                RunSearch();
+                SearchCatalog(_context);
+            }
+
+            else if (userChoice == 0)
+            {
+                break;
             }
         }
     }
-    private void SearchCatalog()
+    private void SearchCatalog(LibraryContext context)
     {
-        string searchstring;
-        TerminalUI.SmoothPrintLine("Please enter your search below:");
-        searchstring = Console.ReadLine();
+        int userChoice;
+        List<string> searchLine = new List<string> {};
+
+        TerminalUI.SmoothPrintLine("Enter Your Search:");
+        string searchString = Console.ReadLine();
+
+        var searchResults = context.Contents.Where(
+            i => i.Title.Contains(searchString) &&
+            i.Category.Contains(searchString)           
+        ).ToList();
+        foreach (var item in searchResults)
+        {
+            searchLine.Add(item.ToString());
+        }
+
+        List<string> searchMenu = MakeSearchMenu(searchLine);
+        // running a menu for all the search Items
+        while (true)
+        {
+            userChoice = TerminalUI.RunIntMenu(searchMenu, searchLine.Count);
+            if (userChoice == 0)
+            {
+                break;
+            }
+            else
+            {
+                searchResults[userChoice - 1].SearchedMain(this);
+            }
+        }
 
     }
     private List<string> MakeContentMenu()
@@ -65,15 +102,26 @@ public class User
         int count = 1;
         foreach (Content item in UserContent)
         {
-            menu.Add($"{count}" + item.ToString());
+            menu.Add($"{count} - " + item.ToString());
             count ++;
         }
 
         return menu;
     }
-    private void RunSearch()
+    private List<string> MakeSearchMenu(List<string> searchLines)
     {
 
+        List<string> menu = new List<string> {
+            "ITEMS FOUND:"
+        };
+        int count = 1;
+        foreach (string line in searchLines)
+        {
+            menu.Add($"{count} - {line}.");
+            count++;
+        }
+
+        return menu;
     }
     private void OpenUserContent()
     {
@@ -93,9 +141,19 @@ public class User
                 }
                 else
                 {
-                    UserContent[userChoice].Main();
+                    UserContent[userChoice - 1].BorrowedMain(this);
                 }
             }
         }
+    }
+    public void AddContentToUser(Content content)
+    {
+        UserContent.Add(content);
+        TerminalUI.StringPressToContinue("Item Checked Out!");
+    }
+    public void RemoveContentFromUser(Content content)
+    {
+        UserContent.Remove(content);
+        TerminalUI.StringPressToContinue("Item Returned!");
     }
 }

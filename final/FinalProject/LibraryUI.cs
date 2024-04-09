@@ -28,7 +28,8 @@ class LibraryUI
         {
             context.Database.EnsureCreated();
 
-            
+            AddToDatabase(context);
+            AddToDatabase(context);
 
 
 
@@ -83,4 +84,26 @@ class LibraryUI
     //     user.Main();
         TerminalUI.SmoothPrintLine("Login");
     } 
+    private void AddToDatabase(LibraryContext context)
+    {
+        Book book = new Book {
+            Title = "book",
+            Category = "something boring",
+            IsLost = false,
+            Author = "Brandon Blake",
+            Chapters = new List<string> {
+                "Chapter one",
+                "chapter 2"
+            }
+        };
+        DVD dvd = new DVD {
+            Title = "DVDo",
+            Category = "Horror",
+            IsLost = false
+        };
+        context.Books.Add(book);
+        context.DVDs.Add(dvd);
+        context.SaveChanges();
+
+    }
 }
